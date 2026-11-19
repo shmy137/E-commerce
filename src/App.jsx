@@ -1,15 +1,16 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Router from "./router/Router";
 
 function App() {
-
   return (
-   <>
+    <>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
