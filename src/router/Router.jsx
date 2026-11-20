@@ -6,6 +6,7 @@ import About from "../pages/About.jsx";
 import Products from "../pages/Products.jsx";
 import Footer from "../pages/Footer.jsx";
 import FeaturedProducts from "../pages/FeaturedProducts.jsx";
+import ProductDetails from "../pages/ProductDetails.jsx";
 
 function Router() {
   useEffect(() => {
@@ -28,6 +29,7 @@ function Router() {
             }
           />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
         </Routes>
       </main>
     </div>

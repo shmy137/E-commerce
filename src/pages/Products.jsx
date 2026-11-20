@@ -1,31 +1,22 @@
-import React, { useEffect, useState } from "react";
-import ProductCard from "../components/productcard";
-import axios from "axios";
+import { Link } from "react-router-dom";
+import ProductCard from "../components/productcard.jsx";
+import useProducts from "../hooks/useProducts.js";
 
 function Products() {
-  const [products, setProducts] = useState([]);
+  const { data: products, error, isLoading } = useProducts();
 
-  const fetchProducts = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/shoes");
-      setProducts(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if (isLoading) return <p>....Loading</p>;
+  if (error) return <p>Error : {error.message}</p>;
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
   return (
     <div className="min-h-screen bg-background">
       <h1 className="text-2xl font-bold mb-6">Products</h1>
-      <a href="#featredkicks">
-        <p>Back</p>
-      </a>
-      {products.map((prod) => (
-        <ProductCard key={prod.id} product={prod} />
-      ))}
+      <Link to="/#featredkicks">Back</Link>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ml-10 mr-10 gap-6">
+        {products.map((prod) => (
+          <ProductCard key={prod.id} product={prod} />
+        ))}
+      </div>
     </div>
   );
 }
