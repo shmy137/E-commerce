@@ -61,6 +61,7 @@ function Home() {
       id="home"
       className="min-h-[95vh] relative   flex items-center px-8 sm:px-8 md:px-16"
     >
+
       <img
         key={currentSlide}
         src={slides[currentSlide].image}
@@ -87,6 +88,7 @@ function Home() {
           </button>
         </div>
       </div>
+
     </div>
   );
 }

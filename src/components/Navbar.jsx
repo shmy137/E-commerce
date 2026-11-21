@@ -21,10 +21,10 @@ function Navbar() {
           <Link to="/#footer">Footer</Link>
         </div>
 
-        {/* Desktop Login */}
-        <button className="hidden md:block mr-8">
-          Login
-        </button>
+        {/* Desktop Login and Register */}
+        <div className="hidden md:flex items-center gap-5 mr-8">
+          <Link to="/login">Login</Link>
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -42,7 +42,7 @@ function Navbar() {
           <Link to="/#about" onClick={() => setMenuOpen(false)}>About</Link>
           <Link to="/#featredkicks" onClick={() => setMenuOpen(false)}>Products</Link>
           <Link to="/#footer" onClick={() => setMenuOpen(false)}>Footer</Link>
-          <button onClick={() => setMenuOpen(false)}>Login</button>
+          <Link to="/login" onClick={() => setMenuOpen(false)}>Login</Link>
         </div>
       )}
     </nav>

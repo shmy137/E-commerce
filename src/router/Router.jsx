@@ -7,10 +7,11 @@ import Products from "../pages/Products.jsx";
 import Footer from "../pages/Footer.jsx";
 import FeaturedProducts from "../pages/FeaturedProducts.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
+import Register from "../pages/Register.jsx";
+import Login from "../pages/Login.jsx";
 
 function Router() {
   useEffect(() => {
-    window.history.replaceState(null, "", "/");
     window.scrollTo(0, 0);
   }, []);
   return (
@@ -30,6 +31,9 @@ function Router() {
           />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
+
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </div>

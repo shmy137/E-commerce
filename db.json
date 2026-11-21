@@ -1,7 +1,7 @@
 {
   "shoes": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Nike Air Force 1 '07",
       "brand": "Nike",
       "category": "Men",
@@ -15,7 +15,7 @@
       "featured": true
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Adidas Samba OG",
       "brand": "Adidas",
       "category": "Unisex",
@@ -29,7 +29,7 @@
       "featured": false
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Puma Suede Classic",
       "brand": "Puma",
       "category": "Men",
@@ -43,7 +43,7 @@
       "featured": false
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "New Balance 574",
       "brand": "New Balance",
       "category": "Unisex",
@@ -57,7 +57,7 @@
       "featured": true
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Nike Dunk Low",
       "brand": "Nike",
       "category": "Women",
@@ -71,7 +71,7 @@
       "featured": true
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Adidas Ultraboost Light",
       "brand": "Adidas",
       "category": "Men",
@@ -85,7 +85,7 @@
       "featured": true
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Puma RS-X",
       "brand": "Puma",
       "category": "Unisex",
@@ -99,7 +99,7 @@
       "featured": false
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Converse Chuck Taylor All Star",
       "brand": "Converse",
       "category": "Unisex",
@@ -113,7 +113,7 @@
       "featured": false
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Asics Gel-Kayano 30",
       "brand": "Asics",
       "category": "Men",
@@ -127,7 +127,7 @@
       "featured": true
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Reebok Classic Leather",
       "brand": "Reebok",
       "category": "Women",
@@ -141,5 +141,27 @@
       "featured": true
     }
   ],
-  "hero-slides": [{}]
+  "hero-slides": [
+    {
+      "id": "YufgnsBLG9w"
+    }
+  ],
+  "users": [
+    {
+      "name": "Shaamir Mansoor",
+      "email": "shaamirmansoor153@gmail.com",
+      "phone": "08590727887",
+      "password": "123",
+      "confirmPassword": "123",
+      "id": "w0-HB_J04AQ"
+    },
+    {
+      "name": "Shaamir Mansoor",
+      "email": "shaamirmansoor1153@gmail.com",
+      "phone": "08590727887",
+      "password": "123",
+      "id": "H5GJaLtnvhM"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
