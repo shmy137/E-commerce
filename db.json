@@ -10,7 +10,7 @@
       "description": "Classic everyday sneakers with a clean design.",
       "sizes": [6, 7, 8, 9, 10, 11],
       "color": "White",
-      "stock": 20,
+      "quantity": 20,
       "rating": 4.8,
       "featured": true
     },
@@ -24,7 +24,7 @@
       "description": "Retro-inspired sneakers with timeless style.",
       "sizes": [6, 7, 8, 9, 10, 11],
       "color": "Black",
-      "stock": 15,
+      "quantity": 15,
       "rating": 4.7,
       "featured": false
     },
@@ -38,7 +38,7 @@
       "description": "Iconic suede sneakers for everyday comfort.",
       "sizes": [6, 7, 8, 9, 10],
       "color": "Black",
-      "stock": 18,
+      "quantity": 18,
       "rating": 4.5,
       "featured": false
     },
@@ -52,7 +52,7 @@
       "description": "Comfortable sneakers with a classic silhouette.",
       "sizes": [6, 7, 8, 9, 10, 11],
       "color": "Grey",
-      "stock": 12,
+      "quantity": 12,
       "rating": 4.6,
       "featured": true
     },
@@ -66,7 +66,7 @@
       "description": "Streetwear-inspired sneakers with bold styling.",
       "sizes": [4, 5, 6, 7, 8, 9],
       "color": "White/Black",
-      "stock": 25,
+      "quantity": 25,
       "rating": 4.9,
       "featured": true
     },
@@ -80,7 +80,7 @@
       "description": "Lightweight running shoes with responsive cushioning.",
       "sizes": [6, 7, 8, 9, 10, 11],
       "color": "White",
-      "stock": 10,
+      "quantity": 10,
       "rating": 4.7,
       "featured": true
     },
@@ -94,7 +94,7 @@
       "description": "Chunky sneakers with a bold retro-inspired look.",
       "sizes": [6, 7, 8, 9, 10],
       "color": "Multicolor",
-      "stock": 14,
+      "quantity": 14,
       "rating": 4.6,
       "featured": false
     },
@@ -108,7 +108,7 @@
       "description": "Timeless canvas sneakers for everyday wear.",
       "sizes": [4, 5, 6, 7, 8, 9, 10, 11],
       "color": "Black",
-      "stock": 30,
+      "quantity": 30,
       "rating": 4.8,
       "featured": false
     },
@@ -122,7 +122,7 @@
       "description": "Supportive running shoes designed for long-distance comfort.",
       "sizes": [6, 7, 8, 9, 10, 11],
       "color": "Blue",
-      "stock": 8,
+      "quantity": 8,
       "rating": 4.7,
       "featured": true
     },
@@ -136,7 +136,7 @@
       "description": "Minimal leather sneakers with a vintage-inspired design.",
       "sizes": [4, 5, 6, 7, 8, 9],
       "color": "White",
-      "stock": 16,
+      "quantity": 16,
       "rating": 4.5,
       "featured": true
     }
@@ -152,7 +152,6 @@
       "email": "shaamirmansoor153@gmail.com",
       "phone": "08590727887",
       "password": "123",
-      "confirmPassword": "123",
       "id": "w0-HB_J04AQ"
     },
     {
@@ -161,6 +160,20 @@
       "phone": "08590727887",
       "password": "123",
       "id": "H5GJaLtnvhM"
+    },
+    {
+      "name": "Shaamir Mansoor",
+      "email": "shaami@gmail.com",
+      "phone": "08590727887",
+      "password": "1123",
+      "id": "qfRaHQsanFI"
+    },
+    {
+      "name": "dfghj",
+      "email": "aaa@gmail.com",
+      "phone": "12",
+      "password": "123",
+      "id": "4NpYt80a4qc"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

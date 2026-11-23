@@ -18,18 +18,15 @@ export function AuthProvider({ children }) {
       }
     }
     setLoading(null);
-  },[]);
+  }, []);
   const login = async (email, password) => {
     const loggedUser = await loginUser(email, password);
 
     const { password: _, ...safeUser } = loggedUser;
-    localStorage.setItem("user", JSON.parse(safeUser));
+    localStorage.setItem("user", JSON.stringify(safeUser));
     setUser(safeUser);
     return safeUser;
   };
-
-
-
 
   const register = async (data) => {
     const newUser = await registerUser(data);
@@ -42,9 +39,11 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
     setUser(null);
   };
-  return (<>
-  <AuthContext.Provider value={{user, loading, login, register, logout}}> 
-    {children}
-  </AuthContext.Provider> 
-  </>)
+  return (
+    <>
+      <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        {children}
+      </AuthContext.Provider>
+    </>
+  );
 }

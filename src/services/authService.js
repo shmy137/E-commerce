@@ -17,7 +17,12 @@ export async function registerUser(data) {
 }
 
 export async function loginUser(email, password) {
-  const response = await axios.get(USER_API);
+  const response = await axios.get(USER_API, {
+    params: {
+      email: email.trim(),
+    },
+  });
+  console.log("API Response:", response.data);
 
   const loggedUser = response.data.find(
     (user) =>
