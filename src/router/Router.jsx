@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home.jsx";
 import Navbar from "../components/Navbar.jsx";
-import About from "../pages/About.jsx";
 import Products from "../pages/Products.jsx";
 import Footer from "../pages/Footer.jsx";
 import FeaturedProducts from "../pages/FeaturedProducts.jsx";
@@ -18,7 +17,7 @@ function Router() {
   return (
     <div>
       <Navbar />
-      <main className="pt-12">
+      <main className="pt-16">
         <Routes>
           <Route
             path="/"

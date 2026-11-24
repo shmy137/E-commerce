@@ -1,9 +1,9 @@
 //
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Hero1 from "../assets/images/Hero1.png";
 import Hero2 from "../assets/images/Hero2.png";
 import Hero3 from "../assets/images/Hero3.png";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Home() {
   const slides = [
@@ -59,36 +59,39 @@ function Home() {
   return (
     <div
       id="home"
-      className="min-h-[95vh] relative   flex items-center px-8 sm:px-8 md:px-16"
+      className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden px-6 sm:px-10 md:px-16"
     >
-
       <img
         key={currentSlide}
         src={slides[currentSlide].image}
-        alt="Featured Sneaker"
-        className="absolute inset-0 w-full h-full object-cover object-center animate-fade"
+        alt="Featured sneaker in the KICKHOUSE collection"
+        className="absolute inset-0 h-full w-full object-cover object-center animate-fade"
       />
-      <div className="relative z-10 w-full">
-        {/* Left Content */}
-        <div className="text-left">
-          <p className="text-primary font-semibold tracking-[0.3em] uppercase text-sm mb-5">
+      <div className="absolute inset-0 bg-gradient-to-r from-background/70 via-background/20 to-transparent" aria-hidden="true" />
+      <div className="relative z-10 mx-auto w-full max-w-7xl">
+        <div className="max-w-xl text-left">
+          <p className="mb-5 flex items-center gap-3 text-sm font-bold uppercase tracking-[0.24em] text-primary">
+            <span className="h-1 w-8 rounded-full bg-accent" aria-hidden="true" />
             {slides[currentSlide].subtitle}
           </p>
 
-          <h1 className="text-accent-text text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+          <h1 className="mb-6 text-5xl font-black tracking-[-0.05em] text-primary sm:text-6xl md:text-7xl">
             {slides[currentSlide].title}
           </h1>
 
-          <p className="text-gray-600 text-base md:text-lg max-w-md leading-relaxed mb-8">
+          <p className="mb-8 max-w-md text-base leading-relaxed text-primary/75 md:text-lg">
             {slides[currentSlide].description}
           </p>
 
-          <button className="bg-accent text-primary px-8 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition duration-300">
-            Shop Collection
-          </button>
+          <Link
+            to="/#featredkicks"
+            className="inline-flex items-center rounded-full bg-primary px-7 py-3 font-semibold text-background transition duration-200 hover:bg-accent hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          >
+            {slides[currentSlide].button}
+            <span className="ml-3 text-lg" aria-hidden="true">→</span>
+          </Link>
         </div>
       </div>
-
     </div>
   );
 }

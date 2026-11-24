@@ -77,7 +77,7 @@ function ProductDetails() {
             onClick={handleAddToCart}
             className="bg-accent text-white px-6 py-3 rounded-lg mt-6 w-fit"
           >
-            Add to Cart
+            Add to CartV
           </button>
 
           {message && <p className="mt-3 text-sm">{message}</p>}

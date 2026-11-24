@@ -30,15 +30,15 @@ function ProductCard({ product, className = "" }) {
           {product.description}
         </p>
 
-        <p className="text-sm mt-2">
+        {/* <p className="text-sm mt-2">
           Sizes: {product.sizes?.join(", ")}
-        </p>
+        </p> */}
 
         <div className="flex justify-between items-center mt-4">
           <h2 className="text-xl font-bold">₹{product.price}</h2>
 
           <button className="bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90">
-            Add to Cart
+            View Details
           </button>
         </div>
       </div>

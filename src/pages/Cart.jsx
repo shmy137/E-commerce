@@ -1,120 +1,247 @@
+import { Link } from "react-router-dom";
+import { Minus, Plus, X } from "lucide-react";
 import useCart from "../hooks/useCart";
+
+const formatPrice = (price) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(price);
 
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, cartCount } = useCart();
 
-  const totalPrice = cartItems.reduce(
+  const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
   );
 
-  if (cartItems.length === 0) {
-    return (
-      <div className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-3xl font-bold">Your Cart is Empty</h1>
-        <p className="text-gray-500 mt-4">Add some shoes to your cart!</p>
-      </div>
-    );
-  }
-
+  const total = subtotal;
   return (
-    <div className="container mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8">Shopping Cart ({cartCount})</h1>
+    <main className="min-h-[calc(100vh-4rem)] bg-background px-4 py-9 text-primary sm:px-6 lg:px-10 lg:py-12">
+      <div className="mx-auto max-w-7xl">
+        {/* Checkout Progress */}
+        <nav
+          aria-label="Checkout progress"
+          className="mx-auto mb-10 flex max-w-md items-center justify-center"
+        >
+          <span className="text-sm font-semibold">Cart</span>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-6">
-          {cartItems.map((item) => (
-            <div
-              key={`${item.id}-${item.size}`}
-              className="flex flex-col sm:flex-row gap-5 border rounded-xl p-4"
+          <span className="mx-3 h-px flex-1 bg-primary/20" />
+
+          <span className="text-sm text-primary/45">Shipping</span>
+
+          <span className="mx-3 h-px flex-1 bg-primary/20" />
+
+          <span className="text-sm text-primary/45">Payment</span>
+        </nav>
+
+        {/* Heading */}
+        <h1 className="mb-6 border-b border-primary/15 pb-5 text-3xl font-semibold">
+          My Cart
+        </h1>
+
+        {cartItems.length === 0 ? (
+          /* Empty Cart */
+          <section className="flex min-h-72 flex-col items-center justify-center border border-primary/10 bg-white px-6 py-12 text-center">
+            <h2 className="text-xl font-semibold">Your cart is empty</h2>
+
+            <p className="mt-2 text-sm text-primary/60">
+              Add a pair from the collection to get started.
+            </p>
+
+            <Link
+              to="/#featredkicks"
+              className="mt-6 bg-accent px-6 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-background"
             >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full sm:w-36 h-36 object-cover rounded-lg"
-              />
+              Browse Shoes
+            </Link>
+          </section>
+        ) : (
+          <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(290px,0.9fr)] xl:gap-8">
+            {/* Cart Items */}
+            <section
+              aria-label="Cart items"
+              className="border border-primary/10 bg-white px-5 sm:px-7"
+            >
+              <h2 className="border-b border-primary/15 py-5 text-base font-semibold">
+                My Cart ({cartCount})
+              </h2>
 
-              <div className="flex-1">
-                <h2 className="text-lg font-semibold">{item.name}</h2>
+              <div>
+                {cartItems.map((item) => {
+                  const quantityForOtherSizes = cartItems
+                    .filter(
+                      (other) =>
+                        other.id === item.id && other.size !== item.size,
+                    )
+                    .reduce((total, other) => total + other.quantity, 0);
 
-                <p className="text-gray-500 mt-2">Size: {item.size}</p>
+                  const stock = item.stock ?? item.quantity;
 
-                <p className="font-semibold mt-2">₹{item.price}</p>
+                  const canIncrease =
+                    item.quantity + quantityForOtherSizes < stock;
 
-                {/* Quantity Controls */}
-                <div className="flex items-center gap-4 mt-4">
-                  <button
-                    onClick={() =>
-                      updateQuantity(item.id, item.size, item.quantity - 1)
-                    }
-                    className="border px-3 py-1 rounded disabled:cursor-not-allowed disabled:opacity-40"
-                    disabled={item.quantity === 1}
-                  >
-                    -
-                  </button>
+                  return (
+                    <article
+                      key={`${item.id}-${item.size}`}
+                      className="grid grid-cols-[90px_minmax(0,1fr)] gap-4 border-b border-primary/10 py-6 last:border-b-0 sm:grid-cols-[100px_minmax(0,1fr)_auto] sm:items-center sm:gap-5"
+                    >
+                      {/* Product Image */}
+                      <Link
+                        to={`/products/${item.id}`}
+                        className="row-span-2 block h-[90px] w-[90px] overflow-hidden border border-primary/10 bg-white sm:row-span-1 sm:h-[100px] sm:w-[100px]"
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="h-full w-full object-contain p-2"
+                        />
+                      </Link>
 
-                  <span>{item.quantity}</span>
+                      {/* Product Details */}
+                      <div className="min-w-0 self-center">
+                        <Link
+                          to={`/products/${item.id}`}
+                          className="text-sm font-semibold leading-snug hover:underline"
+                        >
+                          {item.name}
+                        </Link>
 
-                  <button
-                    onClick={() =>
-                      updateQuantity(item.id, item.size, item.quantity + 1)
-                    }
-                    className="border px-3 py-1 rounded"
-                    disabled={
-                      item.quantity >=
-                      (item.stock ?? item.quantity) -
-                        cartItems
-                          .filter(
-                            (otherItem) =>
-                              otherItem.id === item.id &&
-                              otherItem.size !== item.size,
-                          )
-                          .reduce((total, otherItem) => total + otherItem.quantity, 0)
-                    }
-                  >
-                    +
-                  </button>
-                </div>
+                        <p className="mt-1 text-xs text-primary/55">
+                          {item.brand}
+                        </p>
 
-                <button
-                  onClick={() => removeFromCart(item.id, item.size)}
-                  className="text-red-500 mt-4"
-                >
-                  Remove
-                </button>
+                        {item.color && (
+                          <p className="mt-1 text-xs text-primary/55">
+                            Color: {item.color}
+                          </p>
+                        )}
+
+                        <p className="mt-1 text-xs text-primary/55">
+                          Size: {item.size}
+                        </p>
+
+                        <p className="mt-3 text-sm font-semibold">
+                          {formatPrice(item.price)}
+                        </p>
+                      </div>
+
+                      {/* Quantity and Remove */}
+                      <div className="col-start-2 mt-3 flex items-center justify-between gap-3 sm:col-start-3 sm:row-start-1 sm:mt-0 sm:flex-col sm:items-end">
+                        {/* Quantity */}
+                        <div className="flex h-8 items-center border border-primary/15">
+                          <button
+                            type="button"
+                            aria-label="Decrease quantity"
+                            disabled={item.quantity <= 1}
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                item.size,
+                                item.quantity - 1,
+                              )
+                            }
+                            className="flex h-full w-8 items-center justify-center transition hover:bg-background disabled:cursor-not-allowed disabled:opacity-35"
+                          >
+                            <Minus size={13} />
+                          </button>
+
+                          <span className="min-w-7 text-center text-sm">
+                            {item.quantity}
+                          </span>
+
+                          <button
+                            type="button"
+                            aria-label="Increase quantity"
+                            disabled={!canIncrease}
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                item.size,
+                                item.quantity + 1,
+                              )
+                            }
+                            className="flex h-full w-8 items-center justify-center bg-primary text-background transition hover:bg-accent hover:text-primary disabled:cursor-not-allowed disabled:opacity-35"
+                          >
+                            <Plus size={13} />
+                          </button>
+                        </div>
+
+                        {/* Item Total and Remove */}
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm font-semibold">
+                            {formatPrice(item.price * item.quantity)}
+                          </span>
+
+                          <button
+                            type="button"
+                            aria-label={`Remove ${item.name}`}
+                            onClick={() => removeFromCart(item.id, item.size)}
+                            className="flex items-center gap-1 text-xs text-primary/50 transition hover:text-red-500"
+                          >
+                            <X size={13} />
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Order Summary */}
+            <aside className="border border-primary/10 bg-white px-5 py-5 sm:px-6">
+              <h2 className="border-b border-primary/15 pb-4 text-lg font-semibold">
+                Your Order
+              </h2>
+
+              {/* Subtotal */}
+              <div className="flex justify-between gap-4 py-5 text-sm">
+                <span className="text-primary/65">
+                  Subtotal ({cartCount} items)
+                </span>
+
+                <span className="font-semibold">{formatPrice(subtotal)}</span>
               </div>
 
-              <div className="font-bold">₹{item.price * item.quantity}</div>
-            </div>
-          ))}
-        </div>
+             
 
-        {/* Order Summary */}
-        <div className="border rounded-xl p-6 h-fit">
-          <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+              {/* Total */}
+              <div className="flex justify-between border-t border-primary/10 py-5 text-base font-semibold">
+                <span>Total Payable</span>
 
-          <div className="flex justify-between mb-4">
-            <span>Total Items</span>
-            <span>{cartCount}</span>
+                <span>{formatPrice(total)}</span>
+              </div>
+
+              <p className="text-xs leading-relaxed text-primary/50">
+                Shipping and payment details will be added at checkout.
+              </p>
+
+              {/* Checkout */}
+              <button
+                type="button"
+                disabled
+                title="Checkout is not available yet"
+                className="mt-6 w-full cursor-not-allowed bg-accent px-5 py-3 text-sm font-bold uppercase tracking-wide text-primary/55"
+              >
+                Checkout Coming Soon
+              </button>
+
+              {/* Continue Shopping */}
+              <Link
+                to="/#featredkicks"
+                className="mt-4 block text-center text-sm text-primary/60 underline underline-offset-4 transition hover:text-primary"
+              >
+                Continue Shopping
+              </Link>
+            </aside>
           </div>
-
-          <div className="flex justify-between mb-4">
-            <span>Subtotal</span>
-            <span>₹{totalPrice}</span>
-          </div>
-
-          <div className="border-t pt-4 flex justify-between font-bold text-lg">
-            <span>Total</span>
-            <span>₹{totalPrice}</span>
-          </div>
-
-          <button className="bg-accent text-white w-full py-3 rounded-lg mt-6">
-            Proceed to Checkout
-          </button>
-        </div>
+        )}
       </div>
-    </div>
+    </main>
   );
 }
 
