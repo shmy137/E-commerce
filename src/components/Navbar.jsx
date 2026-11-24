@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, ShoppingCart, X } from "lucide-react";
 import useAuth from "../hooks/useAuth";
@@ -18,9 +18,26 @@ function Navbar() {
     closeMenu();
   };
 
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen]);
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white text-primary shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 ">
         <Link
           to="/"
           onClick={closeMenu}
@@ -30,9 +47,18 @@ function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-7 md:flex">
-          <Link to="/#home" className={linkClass}>Home</Link>
-          <Link to="/#featredkicks" className={linkClass}>Products</Link>
-          <Link to="/#footer" className={linkClass}>Footer</Link>
+          <Link
+            to="/#home"
+            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+          >
+            Home
+          </Link>
+          <Link to="/#featredkicks"  className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}>
+            Products
+          </Link>
+          <Link to="/#footer"  className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}>
+            Footer
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
@@ -50,16 +76,31 @@ function Navbar() {
             )}
           </Link>
 
+          <Link to="/profile" className="inline-block transition-transform duration-200 hover:scale-105">
+            My Profile
+          </Link>
+
           <div className="hidden items-center gap-4 md:flex">
             {user ? (
               <>
-                <button onClick={handleLogout} className="text-sm font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                >
                   Logout
                 </button>
-                <span className="max-w-36 truncate text-sm font-medium" title={user.name}>{user.name}</span>
+                <span
+                  className="max-w-36 truncate text-sm font-medium"
+                  title={user.name}
+                >
+                  {user.name}
+                </span>
               </>
             ) : (
-              <Link to="/login" className="rounded-full border border-primary/30 px-4 py-2 text-sm font-semibold transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              <Link
+                to="/login"
+                className="rounded-full border border-primary/30 px-4 py-2 text-sm font-semibold transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
                 Login
               </Link>
             )}
@@ -67,38 +108,94 @@ function Navbar() {
 
           <button
             type="button"
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={
+              menuOpen ? "Close navigation menu" : "Open navigation menu"
+            }
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((open) => !open)}
             className="rounded p-2 transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:hidden"
           >
-            {menuOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+            {menuOpen ? (
+              <X size={22} aria-hidden="true" />
+            ) : (
+              <Menu size={22} aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
 
-      {menuOpen && (
-        <div id="mobile-navigation" className="border-t border-black/10 bg-accent px-4 pb-5 pt-3 shadow-lg md:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col gap-1">
-            <Link to="/#home" onClick={closeMenu} className={linkClass}>Home</Link>
-            <Link to="/#featredkicks" onClick={closeMenu} className={linkClass}>Products</Link>
-            <Link to="/#footer" onClick={closeMenu} className={linkClass}>Footer</Link>
+      <div
+        className={`fixed inset-x-0 bottom-0 top-16 z-40 md:hidden ${menuOpen ? "visible" : "invisible"}`}
+        aria-hidden={!menuOpen}
+        inert={!menuOpen}
+      >
+        <button
+          type="button"
+          aria-label="Close navigation menu"
+          tabIndex={menuOpen ? 0 : -1}
+          onClick={closeMenu}
+          className={`absolute inset-0 h-full w-full bg-primary/40 transition-opacity duration-300 ${menuOpen ? "opacity-100" : "opacity-0"}`}
+        />
+        <aside
+          id="mobile-navigation"
+          role="dialog"
+          aria-modal={menuOpen}
+          aria-label="Mobile navigation"
+          className={`absolute bottom-0 right-0 top-0 flex w-[min(88vw,22rem)] flex-col bg-background p-6 text-primary shadow-2xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="flex flex-1 flex-col gap-2 py-2">
+            <Link
+              to="/#home"
+              onClick={closeMenu}
+              className="rounded-lg px-3 py-3 text-lg font-semibold transition hover:bg-accent/30"
+            >
+              Home
+            </Link>
+            <Link
+              to="/#featredkicks"
+              onClick={closeMenu}
+              className="rounded-lg px-3 py-3 text-lg font-semibold transition hover:bg-accent/30"
+            >
+              Products
+            </Link>
+
+            <Link
+              to="/profile"
+              className="rounded-lg px-3 py-3 text-lg font-semibold transition hover:bg-accent/30"
+            >
+              My Profile
+            </Link>
+          </div>
+
+          <div className="border-t border-primary/10 pt-5">
             {user ? (
-              <>
-                <span className="px-2 py-2 text-sm text-primary/70">Signed in as {user.name}</span>
-                <button onClick={handleLogout} className="self-start rounded px-2 py-1 text-sm font-semibold hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              <div className="flex items-center justify-between gap-4">
+                <span
+                  className="min-w-0 truncate text-sm font-medium"
+                  title={user.name}
+                >
+                  {user.name}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="shrink-0 rounded-full border border-primary/20 px-4 py-2 text-sm font-semibold transition hover:bg-primary hover:text-background"
+                >
                   Logout
                 </button>
-              </>
+              </div>
             ) : (
-              <Link to="/login" onClick={closeMenu} className="rounded px-2 py-1 text-sm font-medium hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+              <Link
+                to="/login"
+                onClick={closeMenu}
+                className="block rounded-full bg-primary px-5 py-3 text-center text-sm font-semibold text-background transition hover:bg-accent hover:text-primary"
+              >
                 Login
               </Link>
             )}
           </div>
-        </div>
-      )}
+        </aside>
+      </div>
     </nav>
   );
 }

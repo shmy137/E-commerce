@@ -1,48 +1,73 @@
-import React from "react";
+
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
+const formatPrice = (price) =>
+  new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(price);
+
 function ProductCard({ product, className = "" }) {
   return (
-    <div className={twMerge(
-      "bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300",
-      className
-    )}>
-
-      {/* Shoe Image */}
-      <Link to={`/products/${product.id}`}>
+    <article
+      className={twMerge(
+        "group flex h-full flex-col overflow-hidden border border-primary/10 bg-white",
+        className,
+      )}
+    >
+      {/* Product Image */}
+      <Link
+        to={`/products/${product.id}`}
+        className="relative block aspect-[4/3] overflow-hidden bg-background"
+      >
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-56 object-cover cursor-pointer"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
         />
+
+        {product.quantity <= 0 && (
+          <span className="absolute left-3 top-3 bg-primary px-3 py-1 text-xs font-semibold text-background">
+            Out of stock
+          </span>
+        )}
       </Link>
 
-      {/* Product Details */}
-      <div className="p-4">
-        <Link to={`/products/${product.id}`}>
-          <h2 className="text-lg font-bold hover:text-accent">
-            {product.name}
-          </h2>
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+
+        {/* Product Name and Category */}
+        <Link
+          to={`/products/${product.id}`}
+          className="mt-2 text-lg font-bold leading-snug text-primary"
+        >
+          {product.name}
+
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary/50">
+            {product.category ? ` ${product.category}` : ""}
+          </p>
         </Link>
 
-        <p className="text-gray-500 text-sm mt-1">
-          {product.description}
-        </p>
+        {/* Price and View Details */}
+        <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+          <div>
+            <p className="text-lg font-bold text-primary">
+              {formatPrice(product.price)}
+            </p>
+          </div>
 
-        {/* <p className="text-sm mt-2">
-          Sizes: {product.sizes?.join(", ")}
-        </p> */}
-
-        <div className="flex justify-between items-center mt-4">
-          <h2 className="text-xl font-bold">₹{product.price}</h2>
-
-          <button className="bg-accent text-white px-4 py-2 rounded-lg hover:opacity-90">
-            View Details
-          </button>
+          <Link
+            to={`/products/${product.id}`}
+            className="inline-flex shrink-0 items-center gap-1.5 bg-primary px-3.5 py-2.5 text-sm font-semibold text-background transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            View details
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 }
 

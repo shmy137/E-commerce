@@ -36,3 +36,11 @@ export async function loginUser(email, password) {
 
   return loggedUser;
 }
+export async function updateUser(userId, updatedData) {
+  const response = await axios.patch(
+    `${USER_API}/${userId}`,
+    updatedData
+  );
+
+  return response.data;
+}

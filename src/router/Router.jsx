@@ -9,6 +9,8 @@ import ProductDetails from "../pages/ProductDetails.jsx";
 import Register from "../pages/Register.jsx";
 import Login from "../pages/Login.jsx";
 import Cart from "../pages/Cart.jsx";
+import Profile from "../pages/Profile.jsx";
+import Category from "../pages/Category.jsx";
 
 function Router() {
   useEffect(() => {
@@ -24,13 +26,17 @@ function Router() {
             element={
               <>
                 <Home />
+                <Category />
                 <FeaturedProducts />
                 <Footer />
               </>
             }
           />
+
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<ProductDetails />} />
+
+          <Route path="/profile" element={<Profile />} />
 
           <Route path="/cart" element={<Cart />}/>
 

@@ -1,35 +1,67 @@
+
 import { createContext, useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState(() => {
-    const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
+  const { user } = useAuth();
 
+  const userId = user?.id;
+
+  const [cartItems, setCartItems] = useState([]);
+  const [loadedUserId, setLoadedUserId] = useState(null);
+
+  // Load the cart whenever the logged-in user changes
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (!userId) {
+      setCartItems([]);
+      setLoadedUserId(null);
+      return;
+    }
+
+    const savedCart = localStorage.getItem(`cart_${userId}`);
+
+    try {
+      setCartItems(savedCart ? JSON.parse(savedCart) : []);
+    } catch {
+      setCartItems([]);
+    }
+
+    setLoadedUserId(userId);
+  }, [userId]);
+
+  // Save cart only after the correct user's cart is loaded
+  useEffect(() => {
+    if (!userId || loadedUserId !== userId) return;
+
+    localStorage.setItem(
+      `cart_${userId}`,
+      JSON.stringify(cartItems)
+    );
+  }, [cartItems, userId, loadedUserId]);
 
   const addToCart = (product, size) => {
-    
-    const totalItems = cartItems.filter((item)=>item.id === product.id)
-    .reduce((total,item)=> total + item.quantity,0)
+    if (!userId || loadedUserId !== userId) return false;
 
-    if (totalItems >= product.quantity){
-        return false
+    const totalItems = cartItems
+      .filter((item) => item.id === product.id)
+      .reduce((total, item) => total + item.quantity, 0);
+
+    if (totalItems >= product.quantity) {
+      return false;
     }
-    
+
     setCartItems((prevItems) => {
       const existingItem = prevItems.find(
-        (item) => item.id === product.id && item.size === size,
+        (item) => item.id === product.id && item.size === size
       );
+
       if (existingItem) {
         return prevItems.map((item) =>
           item.id === product.id && item.size === size
             ? { ...item, quantity: item.quantity + 1 }
-            : item,
+            : item
         );
       }
 
@@ -37,18 +69,21 @@ export function CartProvider({ children }) {
         ...prevItems,
         {
           ...product,
-          stock : product.quantity,
+          stock: product.quantity,
           size,
           quantity: 1,
         },
       ];
     });
+
     return true;
   };
 
   const removeFromCart = (id, size) => {
     setCartItems((prevItems) =>
-      prevItems.filter((item) => !(item.id === id && item.size === size)),
+      prevItems.filter(
+        (item) => !(item.id === id && item.size === size)
+      )
     );
   };
 
@@ -56,11 +91,13 @@ export function CartProvider({ children }) {
     if (quantity < 1) return;
 
     const currentItem = cartItems.find(
-      (item) => item.id === id && item.size === size,
+      (item) => item.id === id && item.size === size
     );
+
     if (!currentItem) return;
 
     const stock = currentItem.stock ?? currentItem.quantity;
+
     const quantityForOtherSizes = cartItems
       .filter((item) => item.id === id && item.size !== size)
       .reduce((total, item) => total + item.quantity, 0);
@@ -69,13 +106,16 @@ export function CartProvider({ children }) {
 
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.size === size ? { ...item, quantity } : item,
-      ),
+        item.id === id && item.size === size
+          ? { ...item, quantity }
+          : item
+      )
     );
+
     return true;
   };
-  
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  const cartCount = cartItems.length
 
   return (
     <CartContext.Provider

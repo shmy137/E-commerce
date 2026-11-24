@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import useProduct from "../hooks/useProdcut.js";
 import useCart from "../hooks/useCart.js";
@@ -8,7 +8,7 @@ function ProductDetails() {
 
   const { data: product, isLoading, error } = useProduct(id);
 
-  const {addToCart} = useCart();
+  const { addToCart } = useCart();
 
   const [selectedSize, setSelectedSize] = useState("");
   const [message, setMessage] = useState("");
@@ -24,11 +24,7 @@ function ProductDetails() {
     }
 
     const added = addToCart(product, selectedSize);
-    setMessage(
-      added
-        ? "Product added to cart!"
-        : `Only ${product.quantity} items are available in stock.`,
-    );
+    setMessage(added ? "Product added to cart!" : " Out of Stock");
   };
 
   return (
@@ -75,9 +71,9 @@ function ProductDetails() {
           {/* Add to Cart */}
           <button
             onClick={handleAddToCart}
-            className="bg-accent text-white px-6 py-3 rounded-lg mt-6 w-fit"
+            className="mt-8 inline-flex w-full max-w-sm self-start items-center justify-center rounded-md bg-primary px-7 py-3.5 text-base font-semibold text-background transition-colors hover:bg-accent hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-fit"
           >
-            Add to CartV
+            Add to Cart
           </button>
 
           {message && <p className="mt-3 text-sm">{message}</p>}

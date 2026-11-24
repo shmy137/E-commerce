@@ -21,21 +21,7 @@ function Cart() {
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-background px-4 py-9 text-primary sm:px-6 lg:px-10 lg:py-12">
       <div className="mx-auto max-w-7xl">
-        {/* Checkout Progress */}
-        <nav
-          aria-label="Checkout progress"
-          className="mx-auto mb-10 flex max-w-md items-center justify-center"
-        >
-          <span className="text-sm font-semibold">Cart</span>
-
-          <span className="mx-3 h-px flex-1 bg-primary/20" />
-
-          <span className="text-sm text-primary/45">Shipping</span>
-
-          <span className="mx-3 h-px flex-1 bg-primary/20" />
-
-          <span className="text-sm text-primary/45">Payment</span>
-        </nav>
+       
 
         {/* Heading */}
         <h1 className="mb-6 border-b border-primary/15 pb-5 text-3xl font-semibold">
@@ -123,13 +109,14 @@ function Cart() {
                           Size: {item.size}
                         </p>
 
-                        <p className="mt-3 text-sm font-semibold">
-                          {formatPrice(item.price)}
-                        </p>
+                     
+                        <span className="text-sm font-semibold">
+                            {formatPrice(item.price * item.quantity)}
+                          </span>
                       </div>
 
                       {/* Quantity and Remove */}
-                      <div className="col-start-2 mt-3 flex items-center justify-between gap-3 sm:col-start-3 sm:row-start-1 sm:mt-0 sm:flex-col sm:items-end">
+                      <div className="col-span-2 mt-3 flex min-w-0 items-center justify-between gap-3 sm:col-span-1 sm:col-start-3 sm:row-start-1 sm:mt-0 sm:flex-col sm:items-end">
                         {/* Quantity */}
                         <div className="flex h-8 items-center border border-primary/15">
                           <button
@@ -171,15 +158,14 @@ function Cart() {
 
                         {/* Item Total and Remove */}
                         <div className="flex items-center gap-3">
-                          <span className="text-sm font-semibold">
-                            {formatPrice(item.price * item.quantity)}
-                          </span>
+                          
 
                           <button
                             type="button"
                             aria-label={`Remove ${item.name}`}
+                            title={`Remove ${item.name}`}
                             onClick={() => removeFromCart(item.id, item.size)}
-                            className="flex items-center gap-1 text-xs text-primary/50 transition hover:text-red-500"
+                            className="flex min-h-10 shrink-0 items-center justify-center gap-1 rounded-sm px-2 text-xs text-primary/60 transition hover:bg-red-50 hover:text-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                           >
                             <X size={13} />
                             Remove
@@ -232,7 +218,7 @@ function Cart() {
 
               {/* Continue Shopping */}
               <Link
-                to="/#featredkicks"
+                to="/products"
                 className="mt-4 block text-center text-sm text-primary/60 underline underline-offset-4 transition hover:text-primary"
               >
                 Continue Shopping
