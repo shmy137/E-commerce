@@ -57,15 +57,22 @@ function Profile() {
 
   if (!user) {
     return (
-      <>
-        <p className="text-center mt-20">Please login to view your profile.</p>
-        <Link
-          to="/login"
-          className="rounded-full border border-primary/30 px-4 py-2 text-sm font-semibold transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-        >
-          Login
-        </Link>
-      </>
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-background px-4 text-primary">
+        <div className="max-w-lg text-center">
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-primary/50">
+            KICKHOUSE
+          </p>
+
+          <p className="mt-8 mb-6">Please login to view your profile.</p>
+
+          <Link
+            to="/login"
+            className="inline-block rounded-full border border-primary/30 px-6 py-2 text-sm font-semibold transition-colors hover:bg-primary hover:text-white"
+          >
+            Login
+          </Link>
+        </div>
+      </div>
     );
   }
 

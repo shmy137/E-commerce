@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useProduct from "../hooks/useProdcut.js";
 import useCart from "../hooks/useCart.js";
+import useAuth from "../hooks/useAuth.js";
 
 function ProductDetails() {
+
+  const {user} = useAuth();
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const { data: product, isLoading, error } = useProduct(id);
@@ -18,6 +22,11 @@ function ProductDetails() {
   if (!product) return <p>Product not found</p>;
 
   const handleAddToCart = () => {
+if(!user){
+  navigate("/login");
+  return;
+}
+
     if (!selectedSize) {
       setMessage("Please select a size");
       return;

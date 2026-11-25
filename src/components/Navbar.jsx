@@ -53,12 +53,28 @@ function Navbar() {
           >
             Home
           </Link>
-          <Link to="/#featredkicks"  className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}>
+          <Link
+            to="/#featredkicks"
+            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+          >
             Products
           </Link>
-          <Link to="/#footer"  className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}>
-            Footer
+          <Link
+            to="/profile"
+            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+          >
+            My Profile
           </Link>
+          <Link
+            to="/orders"
+            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+          >
+            Orders
+          </Link>
+
+          {/* <Link to="/#footer"  className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}>
+            Footer
+          </Link> */}
         </div>
 
         <div className="flex items-center gap-4">
@@ -74,10 +90,6 @@ function Navbar() {
                 {cartCount}
               </span>
             )}
-          </Link>
-
-          <Link to="/profile" className="inline-block transition-transform duration-200 hover:scale-105">
-            My Profile
           </Link>
 
           <div className="hidden items-center gap-4 md:flex">

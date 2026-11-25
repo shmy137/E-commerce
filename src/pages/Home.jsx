@@ -59,7 +59,7 @@ function Home() {
   return (
     <div
       id="home"
-      className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden px-6 sm:px-10 md:px-16"
+    className="relative flex h-[65vh] min-h-[400px] items-center overflow-hidden px-6 sm:h-[75vh] sm:min-h-[450px] md:h-[calc(100svh-4rem)] md:min-h-0 md:px-16"
     >
       <img
         key={currentSlide}

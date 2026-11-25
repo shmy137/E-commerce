@@ -1,4 +1,3 @@
-
 import { createContext, useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 
@@ -35,10 +34,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     if (!userId || loadedUserId !== userId) return;
 
-    localStorage.setItem(
-      `cart_${userId}`,
-      JSON.stringify(cartItems)
-    );
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(cartItems));
   }, [cartItems, userId, loadedUserId]);
 
   const addToCart = (product, size) => {
@@ -54,14 +50,14 @@ export function CartProvider({ children }) {
 
     setCartItems((prevItems) => {
       const existingItem = prevItems.find(
-        (item) => item.id === product.id && item.size === size
+        (item) => item.id === product.id && item.size === size,
       );
 
       if (existingItem) {
         return prevItems.map((item) =>
           item.id === product.id && item.size === size
             ? { ...item, quantity: item.quantity + 1 }
-            : item
+            : item,
         );
       }
 
@@ -79,11 +75,14 @@ export function CartProvider({ children }) {
     return true;
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem("cart");
+  };
+
   const removeFromCart = (id, size) => {
     setCartItems((prevItems) =>
-      prevItems.filter(
-        (item) => !(item.id === id && item.size === size)
-      )
+      prevItems.filter((item) => !(item.id === id && item.size === size)),
     );
   };
 
@@ -91,7 +90,7 @@ export function CartProvider({ children }) {
     if (quantity < 1) return;
 
     const currentItem = cartItems.find(
-      (item) => item.id === id && item.size === size
+      (item) => item.id === id && item.size === size,
     );
 
     if (!currentItem) return;
@@ -106,16 +105,14 @@ export function CartProvider({ children }) {
 
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id && item.size === size
-          ? { ...item, quantity }
-          : item
-      )
+        item.id === id && item.size === size ? { ...item, quantity } : item,
+      ),
     );
 
     return true;
   };
 
-  const cartCount = cartItems.length
+  const cartCount = cartItems.length;
 
   return (
     <CartContext.Provider
@@ -125,6 +122,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         updateQuantity,
         cartCount,
+        clearCart,
       }}
     >
       {children}

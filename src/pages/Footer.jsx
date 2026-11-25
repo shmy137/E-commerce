@@ -1,67 +1,41 @@
-import React from "react";
+
+import { useNavigate } from "react-router-dom";
+import Button from "../components/button";
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   return (
-    <section className="py-10 bg-gray-50 sm:pt-16 lg:pt-24" id="footer">
-      <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <div className="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-12">
-          {/* Description */}
-          <div className="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
-            <p className="text-base leading-relaxed text-gray-600 mt-7">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-              amet sint. Velit officia consequat duis enim velit mollit.
-            </p>
-          </div>
+    <footer className="bg-[#171717] text-white py-16 sm:py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
-          {/* Company Links */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10">
+
+          {/* Footer Heading */}
           <div>
-            <p className="text-sm font-semibold tracking-widest text-gray-400 uppercase">
-              Company
+            <p className="text-xs font-bold tracking-[0.2em] text-[#c6f221] mb-5">
+              KEEP MOVING
             </p>
 
-            <ul className="mt-6 space-y-4">
-              {["About", "Features", "Works", "Career"].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="flex text-base text-black transition-all duration-200 hover:text-blue-600"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.05]">
+              Good things
+              <br />
+              come in <span className="text-[#c6f221]">pairs.</span>
+            </h2>
           </div>
 
-          {/* Help Links */}
-          <div>
-            <p className="text-sm font-semibold tracking-widest text-gray-400 uppercase">
-              Help
-            </p>
+          {/* Shop Button */}
+          <Button
+            onClick={() => navigate("/products")}
+            className="self-start md:self-center rounded-none border border-white/40 bg-transparent px-7 py-4 text-white hover:bg-[#c6f221] hover:text-black"
+          >
+            View all sneakers →
+          </Button>
 
-            <ul className="mt-6 space-y-4">
-              {[
-                "Customer Support",
-                "Delivery Details",
-                "Terms & Conditions",
-                "Privacy Policy",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="flex text-base text-black transition-all duration-200 hover:text-blue-600"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        <hr className="mt-16 mb-10 border-gray-200" />
       </div>
-    </section>
+    </footer>
   );
 };
 

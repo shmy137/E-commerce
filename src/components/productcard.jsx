@@ -1,4 +1,3 @@
-
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
@@ -37,7 +36,6 @@ function ProductCard({ product, className = "" }) {
       </Link>
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
-
         {/* Product Name and Category */}
         <Link
           to={`/products/${product.id}`}
@@ -60,7 +58,7 @@ function ProductCard({ product, className = "" }) {
 
           <Link
             to={`/products/${product.id}`}
-            className="inline-flex shrink-0 items-center gap-1.5 bg-primary px-3.5 py-2.5 text-sm font-semibold text-background transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            className="inline-flex shrink-0 items-center gap-1.5 bg-primary px-3.5 py-2.5 text-sm font-semibold text-background transition hover:bg-accent hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             View details
             <ArrowUpRight size={15} aria-hidden="true" />

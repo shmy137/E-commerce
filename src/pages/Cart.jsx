@@ -21,8 +21,6 @@ function Cart() {
   return (
     <main className="min-h-[calc(100vh-4rem)] bg-background px-4 py-9 text-primary sm:px-6 lg:px-10 lg:py-12">
       <div className="mx-auto max-w-7xl">
-       
-
         {/* Heading */}
         <h1 className="mb-6 border-b border-primary/15 pb-5 text-3xl font-semibold">
           My Cart
@@ -109,10 +107,9 @@ function Cart() {
                           Size: {item.size}
                         </p>
 
-                     
                         <span className="text-sm font-semibold">
-                            {formatPrice(item.price * item.quantity)}
-                          </span>
+                          {formatPrice(item.price * item.quantity)}
+                        </span>
                       </div>
 
                       {/* Quantity and Remove */}
@@ -158,8 +155,6 @@ function Cart() {
 
                         {/* Item Total and Remove */}
                         <div className="flex items-center gap-3">
-                          
-
                           <button
                             type="button"
                             aria-label={`Remove ${item.name}`}
@@ -193,8 +188,6 @@ function Cart() {
                 <span className="font-semibold">{formatPrice(subtotal)}</span>
               </div>
 
-             
-
               {/* Total */}
               <div className="flex justify-between border-t border-primary/10 py-5 text-base font-semibold">
                 <span>Total Payable</span>
@@ -207,14 +200,12 @@ function Cart() {
               </p>
 
               {/* Checkout */}
-              <button
-                type="button"
-                disabled
-                title="Checkout is not available yet"
-                className="mt-6 w-full cursor-not-allowed bg-accent px-5 py-3 text-sm font-bold uppercase tracking-wide text-primary/55"
+              <Link
+                to="/checkout"
+                className="mt-6 block w-full bg-accent px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-primary transition hover:bg-primary hover:text-background"
               >
-                Checkout Coming Soon
-              </button>
+                Proceed to Checkout
+              </Link>
 
               {/* Continue Shopping */}
               <Link

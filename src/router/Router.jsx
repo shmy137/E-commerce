@@ -11,13 +11,17 @@ import Login from "../pages/Login.jsx";
 import Cart from "../pages/Cart.jsx";
 import Profile from "../pages/Profile.jsx";
 import Category from "../pages/Category.jsx";
+import ScrolltoTop from "../components/scrolltoTop.jsx";
+import About from "../pages/About.jsx";
+import NotFound from "../pages/NotFound.jsx";
+import Checkout from "../pages/Checkout.jsx";
+import OrderSuccess from "../pages/OrderSuccess.jsx";
+import Orders from "../pages/Order.jsx";
 
 function Router() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <div>
+      <ScrolltoTop />
       <Navbar />
       <main className="pt-16">
         <Routes>
@@ -26,8 +30,9 @@ function Router() {
             element={
               <>
                 <Home />
-                <Category />
+                <About />
                 <FeaturedProducts />
+                <Category />
                 <Footer />
               </>
             }
@@ -38,10 +43,16 @@ function Router() {
 
           <Route path="/profile" element={<Profile />} />
 
-          <Route path="/cart" element={<Cart />}/>
+          <Route path="/cart" element={<Cart />} />
 
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/orders" element={<Orders />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>

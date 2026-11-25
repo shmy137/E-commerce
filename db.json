@@ -8,7 +8,14 @@
       "price": 12999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/Adidas_Ultraboost_Ligh.webp",
       "description": "Lightweight running shoes with responsive cushioning.",
-      "sizes": [6, 7, 8, 9, 10, 11],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
       "color": "White",
       "quantity": 10,
       "rating": 4.7,
@@ -22,7 +29,14 @@
       "price": 7999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/New_Balance_574.webp",
       "description": "Comfortable sneakers with a classic silhouette.",
-      "sizes": [6, 7, 8, 9, 10, 11],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
       "color": "Grey",
       "quantity": 12,
       "rating": 4.6,
@@ -36,13 +50,19 @@
       "price": 14999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
       "description": "Supportive running shoes designed for long-distance comfort.",
-      "sizes": [6, 7, 8, 9, 10, 11],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
       "color": "Blue",
       "quantity": 8,
       "rating": 4.7,
       "featured": true
     },
-   
     {
       "id": "4",
       "name": "Adidas Samba OG",
@@ -51,7 +71,14 @@
       "price": 8999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/Adidas_Samba_OG.webp",
       "description": "Retro-inspired sneakers with timeless style.",
-      "sizes": [6, 7, 8, 9, 10, 11],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
       "color": "Black",
       "quantity": 15,
       "rating": 4.7,
@@ -65,7 +92,13 @@
       "price": 5499,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Puma_Carina_Street.webp",
       "description": "Fashion-forward sneakers with a platform sole and comfortable fit.",
-      "sizes": [4, 5, 6, 7, 8],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
       "color": "White/Pink",
       "quantity": 18,
       "rating": 4.5,
@@ -79,7 +112,16 @@
       "price": 3999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503509/Converse_Chuck_Taylor_All_Star_Lift.webp",
       "description": "Timeless canvas sneakers for everyday wear.",
-      "sizes": [4, 5, 6, 7, 8, 9, 10, 11],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
       "color": "Black",
       "quantity": 30,
       "rating": 4.8,
@@ -93,7 +135,13 @@
       "price": 5999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Converse_Chuck_Taylor_All_Star.webp",
       "description": "Iconic canvas sneakers with a stylish elevated platform sole.",
-      "sizes": [4, 5, 6, 7, 8],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
       "color": "Black/White",
       "quantity": 16,
       "rating": 4.7,
@@ -107,7 +155,14 @@
       "price": 6499,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503509/Reebok_Classic_Leather.webp",
       "description": "Minimal leather sneakers with a vintage-inspired design.",
-      "sizes": [4, 5, 6, 7, 8, 9],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
       "color": "White",
       "quantity": 16,
       "rating": 4.5,
@@ -121,7 +176,14 @@
       "price": 8299,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503511/Nike_Dunk_Low.webp",
       "description": "Streetwear-inspired sneakers with bold styling.",
-      "sizes": [4, 5, 6, 7, 8, 9],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
       "color": "White/Black",
       "quantity": 25,
       "rating": 4.9,
@@ -135,7 +197,13 @@
       "price": 7999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503509/Nike_Air_Max_INTRLK_Lite.webp",
       "description": "Women's lifestyle sneakers featuring a sleek silhouette, soft cushioning and modern styling.",
-      "sizes": [4, 5, 6, 7, 8],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
       "color": "White/Pink",
       "quantity": 15,
       "rating": 4.7,
@@ -149,7 +217,14 @@
       "price": 7499,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503511/Nike_Air_Force_1_07.webp",
       "description": "Classic everyday sneakers with a clean design.",
-      "sizes": [6, 7, 8, 9, 10, 11],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
       "color": "White",
       "quantity": 20,
       "rating": 4.8,
@@ -163,7 +238,14 @@
       "price": 9999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503509/Nike_Air_Max_INTRLK_Lite.webp",
       "description": "Retro running-inspired sneakers with a bold design and everyday comfort.",
-      "sizes": [4, 5, 6, 7, 8, 9],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
       "color": "Beige",
       "quantity": 12,
       "rating": 4.8,
@@ -177,7 +259,13 @@
       "price": 9999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Puma_RS-X.webp",
       "description": "Chunky sneakers with a bold retro-inspired look.",
-      "sizes": [6, 7, 8, 9, 10],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
       "color": "Multicolor",
       "quantity": 14,
       "rating": 4.6,
@@ -191,7 +279,13 @@
       "price": 4499,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Puma_Hellcat.webp",
       "description": "Sporty casual sneakers with a bold design and comfortable everyday fit.",
-      "sizes": [4, 5, 6, 7, 8],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
       "color": "Black/Pink",
       "quantity": 15,
       "rating": 4.6,
@@ -205,13 +299,19 @@
       "price": 5999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503511/Puma_Suede_Classic.webp",
       "description": "Iconic suede sneakers for everyday comfort.",
-      "sizes": [6, 7, 8, 9, 10],
+      "sizes": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
       "color": "Black",
       "quantity": 18,
       "rating": 4.5,
       "featured": false
     },
-     {
+    {
       "id": "16",
       "name": "Nike Air Max 270",
       "brand": "Nike",
@@ -219,17 +319,93 @@
       "price": 11999,
       "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503509/Nike_Air_Max_270.webp",
       "description": "Stylish everyday sneakers with lightweight cushioning and modern design.",
-      "sizes": [4, 5, 6, 7, 8, 9],
+      "sizes": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
       "color": "White/Pink",
       "quantity": 15,
       "rating": 4.7,
       "featured": false
     }
-    
   ],
   "hero-slides": [
     {
       "id": "YufgnsBLG9w"
+    }
+  ],
+  "orders": [
+    {
+      "id": "87TFUocE5U4"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "1",
+          "name": "Adidas Ultraboost Light",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/Adidas_Ultraboost_Ligh.webp",
+          "price": 12999,
+          "size": 9,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\nShaban Manzil",
+      "phone": "08590727887",
+      "total": 12999,
+      "status": "Cancelled",
+      "orderDate": "2026-11-25T08:54:14.456Z",
+      "id": "zVq4EbrnrAM"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "1",
+          "name": "Adidas Ultraboost Light",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/Adidas_Ultraboost_Ligh.webp",
+          "price": 12999,
+          "size": 9,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\nShaban Manzil",
+      "phone": "08590727887",
+      "total": 12999,
+      "status": "Pending",
+      "orderDate": "2026-11-25T08:54:57.385Z",
+      "id": "FhVafO71ujE"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "2",
+          "name": "New Balance 574",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/New_Balance_574.webp",
+          "price": 7999,
+          "size": 7,
+          "quantity": 3
+        },
+        {
+          "id": "2",
+          "name": "New Balance 574",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/New_Balance_574.webp",
+          "price": 7999,
+          "size": 6,
+          "quantity": 2
+        }
+      ],
+      "address": "Syed Nagar\nShaban Manzil",
+      "phone": "08590727887",
+      "total": 39995,
+      "status": "Pending",
+      "orderDate": "2026-11-25T09:02:23.673Z",
+      "id": "GvAmyA_xeIA"
     }
   ],
   "users": [
@@ -260,6 +436,25 @@
       "phone": "12",
       "password": "123",
       "id": "4NpYt80a4qc"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "2",
+          "name": "New Balance 574",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/New_Balance_574.webp",
+          "price": 7999,
+          "size": 7,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\nShaban Manzil",
+      "phone": "8590727887",
+      "total": 7999,
+      "status": "Pending",
+      "orderDate": "2026-11-25T08:50:06.376Z",
+      "id": "70usVcN74HY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

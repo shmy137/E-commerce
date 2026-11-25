@@ -1,4 +1,3 @@
-
 function CategoryFilter({ selectedCategory, onCategoryChange }) {
   return (
     <div className="flex justify-end mb-6">
