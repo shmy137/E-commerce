@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom";
 import { Minus, Plus, X } from "lucide-react";
 import useCart from "../hooks/useCart";
-
-const formatPrice = (price) =>
-  new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(price);
+import formatPrice from "../utils/formatPrice";
 
 function Cart() {
   const { cartItems, removeFromCart, updateQuantity, cartCount } = useCart();

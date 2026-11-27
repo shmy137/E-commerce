@@ -1,39 +1,89 @@
-import { ArrowUpRight } from "lucide-react";
+
+import { useState } from "react";
+import { ArrowUpRight, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-
-const formatPrice = (price) =>
-  new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(price);
+import formatPrice from "../utils/formatPrice";
 
 function ProductCard({ product, className = "" }) {
+  const [isWishlisted, setIsWishlisted] = useState(() => {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    return wishlist.some((item) => item.id === product.id);
+  });
+
+ 
+const toggleWishlist = () => {
+  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  let updatedWishlist;
+
+  if (isWishlisted) {
+    updatedWishlist = wishlist.filter(
+      (item) => item.id !== product.id
+    );
+  } else {
+    updatedWishlist = [...wishlist, product];
+  }
+
+  // Save updated wishlist
+  localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+
+  // Notify Wishlist.jsx
+  window.dispatchEvent(
+    new CustomEvent("wishlistUpdated", {
+      detail: updatedWishlist,
+    })
+  );
+
+  setIsWishlisted(!isWishlisted);
+};
+
   return (
     <article
       className={twMerge(
         "group flex h-full flex-col overflow-hidden border border-primary/10 bg-white",
-        className,
+        className
       )}
     >
       {/* Product Image */}
-      <Link
-        to={`/products/${product.id}`}
-        className="relative block aspect-[4/3] overflow-hidden bg-background"
-      >
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-        />
+      <div className="relative aspect-[4/3] overflow-hidden bg-background">
+        <Link
+          to={`/products/${product.id}`}
+          className="block h-full w-full"
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+          />
+        </Link>
+
+        {/* Wishlist Button */}
+        <button
+          type="button"
+          onClick={toggleWishlist}
+          aria-label={
+            isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+          }
+          aria-pressed={isWishlisted}
+          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md transition hover:scale-110"
+        >
+          <Heart
+            size={20}
+            className={
+              isWishlisted
+                ? "fill-red-500 text-red-500"
+                : "text-primary"
+            }
+          />
+        </button>
 
         {product.quantity <= 0 && (
           <span className="absolute left-3 top-3 bg-primary px-3 py-1 text-xs font-semibold text-background">
             Out of stock
           </span>
         )}
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col p-4 sm:p-5">
         {/* Product Name and Category */}
@@ -44,7 +94,7 @@ function ProductCard({ product, className = "" }) {
           {product.name}
 
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary/50">
-            {product.category ? ` ${product.category}` : ""}
+            {product.category ? product.category : ""}
           </p>
         </Link>
 

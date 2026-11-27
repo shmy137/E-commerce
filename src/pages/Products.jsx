@@ -1,22 +1,86 @@
+
 import { Link } from "react-router-dom";
 import ProductCard from "../components/productcard.jsx";
 import useProducts from "../hooks/useProducts.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategoryFilter from "../components/CategoryFilter.jsx";
+import PriceFilter from "../components/PriceFilter.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 
 function Products() {
   const { data: products = [], error, isLoading } = useProducts();
 
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortOrder, setSortOrder] = useState("default");
 
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
+
+  // Debounced search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchTerm(searchInput.trim());
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, searchTerm, sortOrder]);
+
+  // Category and search filtering
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory =
+      selectedCategory === "All" ||
+      product.category === selectedCategory;
+
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesCategory && matchesSearch;
+  });
+
+  // Price sorting
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortOrder === "low-to-high") {
+      return a.price - b.price;
+    }
+
+    if (sortOrder === "high-to-low") {
+      return b.price - a.price;
+    }
+
+    return 0;
+  });
+
+  // Pagination calculations
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
+  const currentProducts = sortedProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  // Change page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <main className="min-h-screen bg-background px-4 pb-16 pt-8 text-primary sm:px-6 sm:pt-10">
       <div className="mx-auto max-w-7xl">
+
         <Link
           to="/#home"
           className="text-sm font-medium text-primary/55 transition hover:text-primary"
@@ -48,16 +112,30 @@ function Products() {
           )}
         </header>
 
-        {!isLoading && !error && products.length > 0 && (
-          <div className="mb-7 flex justify-end">
-            <CategoryFilter
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-            />
-          </div>
-        )}
+        {/* Search */}
+        <SearchBar
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+        />
 
+        {/* Filters and Sorting */}
+        <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+
+          <CategoryFilter
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+          />
+
+          <PriceFilter
+            sortOrder={sortOrder}
+            onSortChange={setSortOrder}
+          />
+
+        </div>
+
+        {/* Loading */}
         {isLoading ? (
+
           <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }, (_, index) => (
               <div key={index} className="animate-pulse">
@@ -68,35 +146,106 @@ function Products() {
               </div>
             ))}
           </div>
+
         ) : error ? (
+
           <div
             role="alert"
             className="border border-primary/10 bg-white px-6 py-12 text-center"
           >
-            <h2 className="text-xl font-bold">We couldn’t load the sneakers</h2>
-            <p className="mt-2 text-sm text-primary/60">{error.message}</p>
+            <h2 className="text-xl font-bold">
+              We couldn’t load the sneakers
+            </h2>
+            <p className="mt-2 text-sm text-primary/60">
+              {error.message}
+            </p>
           </div>
+
         ) : products.length === 0 ? (
+
           <div className="border border-primary/10 bg-white px-6 py-12 text-center">
-            <h2 className="text-xl font-bold">No sneakers to show yet</h2>
+            <h2 className="text-xl font-bold">
+              No sneakers to show yet
+            </h2>
             <p className="mt-2 text-sm text-primary/60">
               Check back soon for the next drop.
             </p>
           </div>
+
         ) : filteredProducts.length === 0 ? (
+
           <div className="border border-primary/10 bg-white px-6 py-12 text-center">
-            <h2 className="text-xl font-bold">No sneakers found</h2>
+            <h2 className="text-xl font-bold">
+              No sneakers found
+            </h2>
             <p className="mt-2 text-sm text-primary/60">
-              No products available in this category.
+              No products match your search or selected category.
             </p>
           </div>
+
         ) : (
-          <div className="grid grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+
+          <>
+            {/* Product Grid */}
+            <div className="grid grid-cols-1 gap-x-5 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+              {currentProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex flex-wrap items-center justify-center gap-2">
+
+                {/* Previous */}
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="border border-primary/20 px-4 py-2 text-sm font-medium transition hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-primary"
+                >
+                  Previous
+                </button>
+
+                {/* Page Numbers */}
+                {Array.from({ length: totalPages }, (_, index) => {
+                  const pageNumber = index + 1;
+
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => handlePageChange(pageNumber)}
+                      className={`h-10 w-10 border text-sm font-semibold transition ${
+                        currentPage === pageNumber
+                          ? "border-primary bg-primary text-white"
+                          : "border-primary/20 hover:bg-primary hover:text-white"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
+
+                {/* Next */}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="border border-primary/20 px-4 py-2 text-sm font-medium transition hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-primary"
+                >
+                  Next
+                </button>
+
+              </div>
+            )}
+
+            {/* Product count */}
+            <p className="mt-5 text-center text-sm text-primary/50">
+              Showing {indexOfFirstProduct + 1} -{" "}
+              {Math.min(indexOfLastProduct, sortedProducts.length)} of{" "}
+              {sortedProducts.length} products
+            </p>
+          </>
         )}
+
       </div>
     </main>
   );

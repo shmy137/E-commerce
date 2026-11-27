@@ -1,7 +1,12 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCart from "../hooks/useCart";
-import { createOrder } from "../services/orderService";
+import {
+  createOrder,
+  getUserAddress,
+  updateUserAddress,
+} from "../services/orderService";
 
 function Checkout() {
   const { cartItems, clearCart } = useCart();
@@ -12,12 +17,38 @@ function Checkout() {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [addressLoading, setAddressLoading] = useState(true);
 
+  // Calculate total price
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
+  // Load previously saved address
+  useEffect(() => {
+    if (!user) {
+      setAddressLoading(false);
+      return;
+    }
+
+    const loadAddress = async () => {
+      try {
+        const userData = await getUserAddress(user.id);
+
+        setAddress(userData.address || "");
+        setPhone(userData.phone || "");
+      } catch (error) {
+        console.error("Address loading failed:", error);
+      } finally {
+        setAddressLoading(false);
+      }
+    };
+
+    loadAddress();
+  }, [user?.id]);
+
+  // Place order
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
@@ -34,6 +65,10 @@ function Checkout() {
     try {
       setLoading(true);
 
+      // Save latest address and phone
+      await updateUserAddress(user.id, address, phone);
+
+      // Prepare order details
       const orderData = {
         userId: user.id,
         items: cartItems.map((item) => ({
@@ -51,10 +86,10 @@ function Checkout() {
         orderDate: new Date().toISOString(),
       };
 
+      // Create order
       await createOrder(orderData);
 
       clearCart();
-
       navigate("/order-success");
     } catch (error) {
       console.error("Order failed:", error);
@@ -64,6 +99,7 @@ function Checkout() {
     }
   };
 
+  // Login check
   if (!user) {
     return (
       <div className="p-10 text-center">
@@ -82,68 +118,80 @@ function Checkout() {
           Checkout
         </h1>
 
-        <form
-          onSubmit={handlePlaceOrder}
-          className="space-y-5 border border-primary/10 bg-white p-6"
-        >
-          <h2 className="text-xl font-semibold">
-            Delivery Details
-          </h2>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={user.name || ""}
-              disabled
-              className="w-full border p-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Delivery Address
-            </label>
-            <textarea
-              required
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter your complete address"
-              className="w-full border p-3"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Enter phone number"
-              className="w-full border p-3"
-            />
-          </div>
-
-          <div className="border-t pt-5">
-            <div className="flex justify-between text-lg font-semibold">
-              <span>Total Amount</span>
-              <span>₹{total.toLocaleString("en-IN")}</span>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading || cartItems.length === 0}
-            className="w-full bg-accent p-3 font-bold uppercase transition hover:bg-primary hover:text-background disabled:opacity-50"
+        {addressLoading ? (
+          <p className="py-10 text-center">
+            Loading delivery details...
+          </p>
+        ) : (
+          <form
+            onSubmit={handlePlaceOrder}
+            className="space-y-5 border border-primary/10 bg-white p-6"
           >
-            {loading ? "Placing Order..." : "Place Order"}
-          </button>
-        </form>
+            <h2 className="text-xl font-semibold">
+              Delivery Details
+            </h2>
+
+            {/* Full Name */}
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={user.name || ""}
+                disabled
+                className="w-full border p-3"
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Delivery Address
+              </label>
+              <textarea
+                required
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter your complete address"
+                rows={4}
+                className="w-full border p-3"
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className="mb-2 block text-sm font-medium">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Enter phone number"
+                className="w-full border p-3"
+              />
+            </div>
+
+            {/* Total */}
+            <div className="border-t pt-5">
+              <div className="flex justify-between text-lg font-semibold">
+                <span>Total Amount</span>
+                <span>₹{total.toLocaleString("en-IN")}</span>
+              </div>
+            </div>
+
+            {/* Place Order */}
+            <button
+              type="submit"
+              disabled={loading || cartItems.length === 0}
+              className="w-full bg-accent p-3 font-bold uppercase transition hover:bg-primary hover:text-background disabled:opacity-50"
+            >
+              {loading ? "Placing Order..." : "Place Order"}
+            </button>
+          </form>
+        )}
       </div>
     </main>
   );

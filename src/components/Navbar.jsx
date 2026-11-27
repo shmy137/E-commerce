@@ -1,27 +1,59 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, ShoppingCart, X } from "lucide-react";
+import { Heart, Menu, ShoppingCart, X } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
+import ConfirmModal from "./ConfirmModal";
+import Wishlist from "../pages/Wishlist";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const { user, logout } = useAuth();
   const { cartCount } = useCart();
 
   const closeMenu = () => setMenuOpen(false);
+
+
+   const [wishlistCount, setWishlistCount] = useState(() => {
+    return JSON.parse(localStorage.getItem("wishlist") || "[]").length;
+  });
+
   const linkClass =
     "rounded px-2 py-1 text-sm font-medium text-primary transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary";
 
+  // Open confirmation modal
   const handleLogout = () => {
+    setShowConfirm(true);
+  };
+
+  // Logout after confirmation
+  const confirmLogout = () => {
     logout();
     closeMenu();
+    setShowConfirm(false);
   };
+
+ 
+
+  useEffect(() => {
+  const updateWishlistCount = (event) => {
+    setWishlistCount(event.detail.length);
+  };
+
+  window.addEventListener("wishlistUpdated", updateWishlistCount);
+
+  return () => {
+    window.removeEventListener("wishlistUpdated", updateWishlistCount);
+  };
+}, []);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
 
     const previousOverflow = document.body.style.overflow;
+
     const handleKeyDown = (event) => {
       if (event.key === "Escape") closeMenu();
     };
@@ -37,7 +69,8 @@ function Navbar() {
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-white text-primary shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 ">
+      {/* Main Navbar */}
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           to="/"
           onClick={closeMenu}
@@ -46,37 +79,38 @@ function Navbar() {
           KICK<span className="font-medium">HOUSE</span>
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="hidden items-center gap-7 md:flex">
           <Link
             to="/#home"
-            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+            className={`${linkClass} inline-block transition-transform duration-200 hover:scale-105`}
           >
             Home
           </Link>
+
           <Link
             to="/#featredkicks"
-            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+            className={`${linkClass} inline-block transition-transform duration-200 hover:scale-105`}
           >
             Products
           </Link>
+
           <Link
             to="/profile"
-            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+            className={`${linkClass} inline-block transition-transform duration-200 hover:scale-105`}
           >
             My Profile
           </Link>
+
           <Link
             to="/orders"
-            className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}
+            className={`${linkClass} inline-block transition-transform duration-200 hover:scale-105`}
           >
             Orders
           </Link>
-
-          {/* <Link to="/#footer"  className={`${linkClass}  inline-block transition-transform duration-200 hover:scale-105`}>
-            Footer
-          </Link> */}
         </div>
 
+        {/* Cart, Login and Mobile Menu */}
         <div className="flex items-center gap-4">
           <Link
             to="/cart"
@@ -85,13 +119,26 @@ function Navbar() {
             className="relative rounded p-2 transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             <ShoppingCart size={21} aria-hidden="true" />
+
             {cartCount > 0 && (
               <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-semibold text-white">
                 {cartCount}
               </span>
             )}
           </Link>
+          <Link
+            to="/wishlist"
+            className="relative rounded p-2 transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+          >
+            <Heart size={20} />
+            {wishlistCount > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-semibold text-white">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
 
+          {/* Desktop Login / Logout */}
           <div className="hidden items-center gap-4 md:flex">
             {user ? (
               <>
@@ -101,6 +148,7 @@ function Navbar() {
                 >
                   Logout
                 </button>
+
                 <span
                   className="max-w-36 truncate text-sm font-medium"
                   title={user.name}
@@ -118,6 +166,7 @@ function Navbar() {
             )}
           </div>
 
+          {/* Mobile Menu Toggle */}
           <button
             type="button"
             aria-label={
@@ -137,24 +186,34 @@ function Navbar() {
         </div>
       </div>
 
+      {/* Mobile Navigation */}
       <div
-        className={`fixed inset-x-0 bottom-0 top-16 z-40 md:hidden ${menuOpen ? "visible" : "invisible"}`}
+        className={`fixed inset-x-0 bottom-0 top-16 z-40 md:hidden ${
+          menuOpen ? "visible" : "invisible"
+        }`}
         aria-hidden={!menuOpen}
         inert={!menuOpen}
       >
+        {/* Background Overlay */}
         <button
           type="button"
           aria-label="Close navigation menu"
           tabIndex={menuOpen ? 0 : -1}
           onClick={closeMenu}
-          className={`absolute inset-0 h-full w-full bg-primary/40 transition-opacity duration-300 ${menuOpen ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 h-full w-full bg-primary/40 transition-opacity duration-300 ${
+            menuOpen ? "opacity-100" : "opacity-0"
+          }`}
         />
+
+        {/* Sidebar */}
         <aside
           id="mobile-navigation"
           role="dialog"
           aria-modal={menuOpen}
           aria-label="Mobile navigation"
-          className={`absolute bottom-0 right-0 top-0 flex w-[min(88vw,22rem)] flex-col bg-background p-6 text-primary shadow-2xl transition-transform duration-300 ease-out ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
+          className={`absolute bottom-0 right-0 top-0 flex w-[min(88vw,22rem)] flex-col bg-background p-6 text-primary shadow-2xl transition-transform duration-300 ease-out ${
+            menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         >
           <div className="flex flex-1 flex-col gap-2 py-2">
             <Link
@@ -164,6 +223,7 @@ function Navbar() {
             >
               Home
             </Link>
+
             <Link
               to="/#featredkicks"
               onClick={closeMenu}
@@ -174,12 +234,22 @@ function Navbar() {
 
             <Link
               to="/profile"
+              onClick={closeMenu}
               className="rounded-lg px-3 py-3 text-lg font-semibold transition hover:bg-accent/30"
             >
               My Profile
             </Link>
+
+            <Link
+              to="/orders"
+              onClick={closeMenu}
+              className="rounded-lg px-3 py-3 text-lg font-semibold transition hover:bg-accent/30"
+            >
+              Orders
+            </Link>
           </div>
 
+          {/* Mobile Login / Logout */}
           <div className="border-t border-primary/10 pt-5">
             {user ? (
               <div className="flex items-center justify-between gap-4">
@@ -189,6 +259,7 @@ function Navbar() {
                 >
                   {user.name}
                 </span>
+
                 <button
                   onClick={handleLogout}
                   className="shrink-0 rounded-full border border-primary/20 px-4 py-2 text-sm font-semibold transition hover:bg-primary hover:text-background"
@@ -208,6 +279,17 @@ function Navbar() {
           </div>
         </aside>
       </div>
+
+      {/* Reusable Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showConfirm}
+        title="Logout?"
+        message="Are you sure you want to logout? You will need to login again to access your account."
+        confirmText="Yes, Logout"
+        cancelText="Cancel"
+        onConfirm={confirmLogout}
+        onCancel={() => setShowConfirm(false)}
+      />
     </nav>
   );
 }

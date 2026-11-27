@@ -10,13 +10,13 @@ import Register from "../pages/Register.jsx";
 import Login from "../pages/Login.jsx";
 import Cart from "../pages/Cart.jsx";
 import Profile from "../pages/Profile.jsx";
-import Category from "../pages/Category.jsx";
 import ScrolltoTop from "../components/scrolltoTop.jsx";
 import About from "../pages/About.jsx";
 import NotFound from "../pages/NotFound.jsx";
 import Checkout from "../pages/Checkout.jsx";
 import OrderSuccess from "../pages/OrderSuccess.jsx";
 import Orders from "../pages/Order.jsx";
+import Wishlist from "../pages/Wishlist.jsx";
 
 function Router() {
   return (
@@ -32,7 +32,6 @@ function Router() {
                 <Home />
                 <About />
                 <FeaturedProducts />
-                <Category />
                 <Footer />
               </>
             }
@@ -44,6 +43,8 @@ function Router() {
           <Route path="/profile" element={<Profile />} />
 
           <Route path="/cart" element={<Cart />} />
+
+          <Route path="/wishlist" element={<Wishlist />} />
 
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />

@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getUserOrders, updateOrderStatus } from "../services/orderService";
-
-const formatPrice = (price) =>
-  new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(price);
+import ConfirmModal from "../components/ConfirmModal";
+import formatPrice from "../utils/formatPrice";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [cancellingId, setCancellingId] = useState(null);
+
+  // Confirmation modal states
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -42,20 +41,33 @@ function Orders() {
     fetchOrders();
   }, [user?.id]);
 
-  const handleCancelOrder = async (orderId) => {
-    try {
-      setCancellingId(orderId);
+  // Open confirmation modal
+  const handleCancelOrder = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowConfirm(true);
+  };
 
-      await updateOrderStatus(orderId, "Cancelled");
+  // Cancel order after confirmation
+  const confirmCancelOrder = async () => {
+    try {
+      setCancellingId(selectedOrderId);
+
+      await updateOrderStatus(selectedOrderId, "Cancelled");
 
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
-          order.id === orderId ? { ...order, status: "Cancelled" } : order,
+          order.id === selectedOrderId
+            ? { ...order, status: "Cancelled" }
+            : order,
         ),
       );
+
+      setShowConfirm(false);
+      setSelectedOrderId(null);
     } catch (err) {
       console.error("Cancel order failed:", err);
       setError("Unable to cancel order. Please try again.");
+      setShowConfirm(false);
     } finally {
       setCancellingId(null);
     }
@@ -168,7 +180,6 @@ function Orders() {
                       key={`${item.id}-${item.size}-${index}`}
                       className="flex items-center gap-4 border-b border-primary/10 py-5 last:border-b-0"
                     >
-                      {/* Product Image */}
                       <div className="h-20 w-20 shrink-0 border border-primary/10">
                         <img
                           src={item.image}
@@ -177,7 +188,6 @@ function Orders() {
                         />
                       </div>
 
-                      {/* Product Details */}
                       <div className="min-w-0 flex-1">
                         <h3 className="text-sm font-semibold">{item.name}</h3>
 
@@ -209,7 +219,6 @@ function Orders() {
                 {/* Delivery Details */}
                 <div className="border-t border-primary/10 py-4 text-xs text-primary/55">
                   <p>Delivery Address: {order.address}</p>
-
                   <p className="mt-1">Phone: {order.phone}</p>
                 </div>
               </section>
@@ -217,6 +226,20 @@ function Orders() {
           </div>
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showConfirm}
+        title="Cancel Order?"
+        message="Are you sure you want to cancel this order? This action cannot be undone."
+        confirmText="Yes, Cancel Order"
+        cancelText="Keep Order"
+        onConfirm={confirmCancelOrder}
+        onCancel={() => {
+          setShowConfirm(false);
+          setSelectedOrderId(null);
+        }}
+      />
     </main>
   );
 }
