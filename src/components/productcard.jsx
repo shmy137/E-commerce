@@ -1,42 +1,50 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ArrowUpRight, Heart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import formatPrice from "../utils/formatPrice";
+import useAuth from "../hooks/useAuth";
+import { readWishlist, saveWishlist } from "../utils/wishlist";
 
 function ProductCard({ product, className = "" }) {
-  const [isWishlisted, setIsWishlisted] = useState(() => {
-    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    return wishlist.some((item) => item.id === product.id);
-  });
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [isWishlisted, setIsWishlisted] = useState(false);
 
- 
-const toggleWishlist = () => {
-  const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-
-  let updatedWishlist;
-
-  if (isWishlisted) {
-    updatedWishlist = wishlist.filter(
-      (item) => item.id !== product.id
+  useEffect(() => {
+    setIsWishlisted(
+      readWishlist(user?.id).some((item) => item.id === product.id),
     );
-  } else {
-    updatedWishlist = [...wishlist, product];
-  }
 
-  // Save updated wishlist
-  localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    const updateWishlist = (event) => {
+      setIsWishlisted(event.detail.some((item) => item.id === product.id));
+    };
 
-  // Notify Wishlist.jsx
-  window.dispatchEvent(
-    new CustomEvent("wishlistUpdated", {
-      detail: updatedWishlist,
-    })
-  );
+    window.addEventListener("wishlistUpdated", updateWishlist);
+    return () => window.removeEventListener("wishlistUpdated", updateWishlist);
+  }, [product.id, user?.id]);
 
-  setIsWishlisted(!isWishlisted);
-};
+  const toggleWishlist = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    const wishlist = readWishlist(user.id);
+
+    let updatedWishlist;
+
+    if (isWishlisted) {
+      updatedWishlist = wishlist.filter((item) => item.id !== product.id);
+    } else {
+      updatedWishlist = [...wishlist, product];
+    }
+
+    saveWishlist(user.id, updatedWishlist);
+
+    setIsWishlisted(!isWishlisted);
+  };
 
   return (
     <article

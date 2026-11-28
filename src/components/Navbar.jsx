@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart, Menu, ShoppingCart, X } from "lucide-react";
+import { Heart, Menu, ShoppingCart, UserRound, X } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import useCart from "../hooks/useCart";
 import ConfirmModal from "./ConfirmModal";
-import Wishlist from "../pages/Wishlist";
+import { readWishlist } from "../utils/wishlist";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const { user, logout } = useAuth();
@@ -15,10 +16,7 @@ function Navbar() {
 
   const closeMenu = () => setMenuOpen(false);
 
-
-   const [wishlistCount, setWishlistCount] = useState(() => {
-    return JSON.parse(localStorage.getItem("wishlist") || "[]").length;
-  });
+  const [wishlistCount, setWishlistCount] = useState(0);
 
   const linkClass =
     "rounded px-2 py-1 text-sm font-medium text-primary transition-colors hover:text-accent-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary";
@@ -35,19 +33,19 @@ function Navbar() {
     setShowConfirm(false);
   };
 
- 
-
   useEffect(() => {
-  const updateWishlistCount = (event) => {
-    setWishlistCount(event.detail.length);
-  };
+    setWishlistCount(readWishlist(user?.id).length);
 
-  window.addEventListener("wishlistUpdated", updateWishlistCount);
+    const updateWishlistCount = (event) => {
+      setWishlistCount(event.detail.length);
+    };
 
-  return () => {
-    window.removeEventListener("wishlistUpdated", updateWishlistCount);
-  };
-}, []);
+    window.addEventListener("wishlistUpdated", updateWishlistCount);
+
+    return () => {
+      window.removeEventListener("wishlistUpdated", updateWishlistCount);
+    };
+  }, [user?.id]);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
@@ -94,20 +92,13 @@ function Navbar() {
           >
             Products
           </Link>
-
           <Link
-            to="/profile"
+            to="/#footer"
             className={`${linkClass} inline-block transition-transform duration-200 hover:scale-105`}
           >
-            My Profile
+            Footer
           </Link>
 
-          <Link
-            to="/orders"
-            className={`${linkClass} inline-block transition-transform duration-200 hover:scale-105`}
-          >
-            Orders
-          </Link>
         </div>
 
         {/* Cart, Login and Mobile Menu */}
@@ -144,17 +135,49 @@ function Navbar() {
               <>
                 <button
                   onClick={handleLogout}
-                  className="text-sm font-semibold hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  className="rounded-full border border-primary/30 px-4 py-2 text-sm font-semibold transition-colors hover:bg-primary hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
                   Logout
                 </button>
 
-                <span
-                  className="max-w-36 truncate text-sm font-medium"
-                  title={user.name}
-                >
-                  {user.name}
-                </span>
+                <div className="relative">
+                  <button
+                    type="button"
+                    aria-label={`Account menu for ${user.name}`}
+                    aria-haspopup="menu"
+                    aria-expanded={accountMenuOpen}
+                    onClick={() => setAccountMenuOpen((open) => !open)}
+                    className="flex max-w-44 items-center gap-2 rounded-full px-2 py-2 text-sm font-medium transition-colors hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    title={user.name}
+                  >
+                    <UserRound size={17} aria-hidden="true" className="shrink-0" />
+                    <span className="truncate">{user.name}</span>
+                  </button>
+                  {accountMenuOpen && (
+                    <div
+                      role="menu"
+                      aria-label="Account"
+                      className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-black/10 bg-white p-2 shadow-lg"
+                    >
+                      <Link
+                        to="/profile"
+                        role="menuitem"
+                        onClick={() => setAccountMenuOpen(false)}
+                        className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-primary"
+                      >
+                        My Profile
+                      </Link>
+                      <Link
+                        to="/orders"
+                        role="menuitem"
+                        onClick={() => setAccountMenuOpen(false)}
+                        className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-primary"
+                      >
+                        Orders
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <Link
@@ -231,6 +254,13 @@ function Navbar() {
             >
               Products
             </Link>
+            <Link
+              to="/#footer"
+              onClick={closeMenu}
+              className="rounded-lg px-3 py-3 text-lg font-semibold transition hover:bg-accent/30"
+            >
+              Footer
+            </Link>
 
             <Link
               to="/profile"
@@ -262,7 +292,8 @@ function Navbar() {
 
                 <button
                   onClick={handleLogout}
-                  className="shrink-0 rounded-full border border-primary/20 px-4 py-2 text-sm font-semibold transition hover:bg-primary hover:text-background"
+                className="block rounded-full bg-primary px-5 py-3 text-center text-sm font-semibold text-background transition hover:bg-accent hover:text-primary"
+
                 >
                   Logout
                 </button>

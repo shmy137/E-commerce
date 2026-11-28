@@ -6,7 +6,7 @@
       "brand": "Adidas",
       "category": "Men",
       "price": 12999,
-      "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/Adidas_Ultraboost_Ligh.webp",
+      "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/Adidas_Ultraboost_Ligh.png",
       "description": "Lightweight running shoes with responsive cushioning.",
       "sizes": [
         6,
@@ -90,7 +90,7 @@
       "brand": "Puma",
       "category": "Women",
       "price": 5499,
-      "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Puma_Carina_Street.webp",
+      "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795842692/Puma_Carina_Street.png",
       "description": "Fashion-forward sneakers with a platform sole and comfortable fit.",
       "sizes": [
         4,
@@ -297,7 +297,7 @@
       "brand": "Puma",
       "category": "Unisex",
       "price": 5999,
-      "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503511/Puma_Suede_Classic.webp",
+      "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795842658/Puma_Suede_Classic.png",
       "description": "Iconic suede sneakers for everyday comfort.",
       "sizes": [
         6,
@@ -333,11 +333,7 @@
       "featured": false
     }
   ],
-  "hero-slides": [
-    {
-      "id": "YufgnsBLG9w"
-    }
-  ],
+  
   "orders": [
     {
       "id": "87TFUocE5U4"
@@ -506,19 +502,165 @@
       "address": "Syed Nagar\nSasdfghjk",
       "phone": "08590727887",
       "total": 15998,
-      "status": "Pending",
+      "status": "Cancelled",
       "orderDate": "2026-11-26T11:35:24.612Z",
       "id": "ibX_qidRx5k"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "2",
+          "name": "New Balance 574",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503510/New_Balance_574.webp",
+          "price": 7999,
+          "size": 9,
+          "quantity": 1
+        },
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 7,
+          "quantity": 1
+        },
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 11,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\nSasdfghjk",
+      "phone": "08590727887",
+      "total": 37997,
+      "status": "Pending",
+      "orderDate": "2026-11-27T05:04:48.749Z",
+      "id": "Eq2ABhN7ZVE"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 9,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\nSasdfghjk",
+      "phone": "08590727887",
+      "total": 14999,
+      "status": "Pending",
+      "orderDate": "2026-11-27T05:05:12.979Z",
+      "id": "aXf_JKlFtfg"
+    },
+    {
+      "userId": "42-zAS5_Mto",
+      "items": [
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 9,
+          "quantity": 2
+        }
+      ],
+      "address": "Syed Nagar\nShaban Manzil",
+      "phone": "9876543210",
+      "total": 29998,
+      "status": "Cancelled",
+      "orderDate": "2026-11-27T06:34:19.379Z",
+      "id": "BCKqEvbY1HI"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 7,
+          "quantity": 1
+        },
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 6,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\n",
+      "phone": "08590727887",
+      "total": 29998,
+      "status": "Cancelled",
+      "orderDate": "2026-11-28T03:07:01.110Z",
+      "id": "E8850MNwocA"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 7,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar\n",
+      "phone": "08590727887",
+      "total": 14999,
+      "status": "Pending",
+      "orderDate": "2026-11-28T03:52:50.223Z",
+      "id": "Ev9bJga8CtM"
+    },
+    {
+      "userId": "w0-HB_J04AQ",
+      "items": [
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 7,
+          "quantity": 1
+        },
+        {
+          "id": "3",
+          "name": "Asics Gel-Kayano 30",
+          "image": "https://res.cloudinary.com/olbacptf/image/upload/v1795503508/Asics_Gel-Kayano_30.webp",
+          "price": 14999,
+          "size": 9,
+          "quantity": 1
+        }
+      ],
+      "address": "Syed Nagar asdfg\n",
+      "phone": "8590727887",
+      "total": 29998,
+      "status": "Pending",
+      "orderDate": "2026-11-28T04:02:45.621Z",
+      "id": "fjHpgIf5SgQ"
     }
   ],
   "users": [
     {
       "name": "Shaamir Mansoor",
       "email": "shaamirmansoor153@gmail.com",
-      "phone": "08590727887",
+      "phone": "1224587458",
       "password": "123",
       "id": "w0-HB_J04AQ",
-      "address": "Syed Nagar\nSasdfghjk"
+      "address": "Syed Nagar asdfg\n"
     },
     {
       "name": "Shaamir Mansoor",
@@ -559,6 +701,14 @@
       "status": "Pending",
       "orderDate": "2026-11-25T08:50:06.376Z",
       "id": "70usVcN74HY"
+    },
+    {
+      "name": "Hari",
+      "email": "hari10@gmail.com",
+      "phone": "9876543210",
+      "password": "18102001",
+      "id": "42-zAS5_Mto",
+      "address": "Syed Nagar\nShaban Manzil"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

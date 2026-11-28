@@ -2,17 +2,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCart from "../hooks/useCart";
-import {
-  createOrder,
-  getUserAddress,
-  updateUserAddress,
-} from "../services/orderService";
+import useAuth from "../hooks/useAuth";
+import { createOrder, getUserAddress } from "../services/orderService";
 
 function Checkout() {
   const { cartItems, clearCart } = useCart();
+  const { user, updateUser } = useAuth();
   const navigate = useNavigate();
-
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
@@ -66,7 +62,7 @@ function Checkout() {
       setLoading(true);
 
       // Save latest address and phone
-      await updateUserAddress(user.id, address, phone);
+      await updateUser({ address, phone });
 
       // Prepare order details
       const orderData = {
@@ -167,6 +163,10 @@ function Checkout() {
               <input
                 type="tel"
                 required
+                inputMode="numeric"
+                pattern="[0-9]{10}"
+                maxLength={10}
+                title="Enter a 10-digit mobile number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Enter phone number"

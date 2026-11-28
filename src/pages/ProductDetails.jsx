@@ -12,7 +12,7 @@ function ProductDetails() {
 
   const { data: product, isLoading, error } = useProduct(id);
 
-  const { addToCart } = useCart();
+  const { addToCart, cartItems } = useCart();
 
   const [selectedSize, setSelectedSize] = useState("");
   const [message, setMessage] = useState("");
@@ -20,6 +20,13 @@ function ProductDetails() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   if (!product) return <p>Product not found</p>;
+
+  const isAlreadyInCart = Boolean(
+    selectedSize &&
+      cartItems.some(
+        (item) => item.id === product.id && item.size === selectedSize,
+      ),
+  );
 
   const handleAddToCart = () => {
 if(!user){
@@ -29,6 +36,11 @@ if(!user){
 
     if (!selectedSize) {
       setMessage("Please select a size");
+      return;
+    }
+
+    if (isAlreadyInCart) {
+      setMessage("This product and size are already in your cart.");
       return;
     }
 
@@ -68,7 +80,7 @@ if(!user){
                 }}
                 className={`border px-4 py-2 rounded-lg ${
                   selectedSize === size
-                    ? "bg-accent text-white"
+                    ? "bg-primary text-white"
                     : "border-gray-300"
                 }`}
               >
@@ -80,9 +92,10 @@ if(!user){
           {/* Add to Cart */}
           <button
             onClick={handleAddToCart}
-            className="mt-8 inline-flex w-full max-w-sm self-start items-center justify-center rounded-md bg-primary px-7 py-3.5 text-base font-semibold text-background transition-colors hover:bg-accent hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-fit"
+            disabled={isAlreadyInCart}
+            className="mt-8 inline-flex w-full max-w-sm self-start items-center justify-center rounded-md bg-primary px-7 py-3.5 text-base font-semibold text-background transition-colors hover:bg-primary hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
           >
-            Add to Cart
+            {isAlreadyInCart ? "Already in Cart" : "Add to Cart"}
           </button>
 
           {message && <p className="mt-3 text-sm">{message}</p>}

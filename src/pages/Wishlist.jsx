@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import ProductCard from "../components/productcard.jsx";
+import useAuth from "../hooks/useAuth";
+import { readWishlist } from "../utils/wishlist";
 
 function Wishlist() {
-  const [wishlist, setWishlist] = useState(() => {
-    return JSON.parse(localStorage.getItem("wishlist") || "[]");
-  });
+  const { user, loading } = useAuth();
+  const [wishlist, setWishlist] = useState([]);
 
   // Update the page whenever a product is added or removed
   useEffect(() => {
+    setWishlist(readWishlist(user?.id));
+
     const updateWishlist = (event) => {
       setWishlist(event.detail);
     };
@@ -20,7 +23,24 @@ function Wishlist() {
     return () => {
       window.removeEventListener("wishlistUpdated", updateWishlist);
     };
-  }, []);
+  }, [user?.id]);
+
+  if (loading) {
+    return <main className="min-h-screen bg-background px-4 py-12">Loading...</main>;
+  }
+
+  if (!user) {
+    return (
+      <main className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 text-center">
+        <Heart size={44} className="mb-4 text-primary/25" />
+        <h1 className="text-2xl font-bold text-primary">Log in to view your wishlist</h1>
+        <p className="mt-2 text-primary/60">Your saved products are private to your account.</p>
+        <Link to="/login" className="mt-6 bg-primary px-6 py-3 font-semibold text-background transition hover:bg-accent hover:text-primary">
+          Login
+        </Link>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-background px-4 py-12 sm:px-8">

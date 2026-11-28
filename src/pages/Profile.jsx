@@ -1,10 +1,11 @@
-
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 function Profile() {
   const { user, updateUser } = useAuth();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -74,6 +75,9 @@ function Profile() {
 
   return (
     <main className="min-h-screen bg-gray-100 px-4 py-20">
+      <div className="mx-auto mb-4 max-w-xl hover:text-gray-600">
+        <Link to="/#home">Home</Link>
+      </div>
       <div className="mx-auto max-w-xl rounded-lg bg-white p-6 shadow-md">
         <h1 className="mb-2 text-2xl font-bold">My Profile</h1>
         <p className="mb-6 text-gray-500">
@@ -111,6 +115,10 @@ function Profile() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
+              inputMode="numeric"
+              pattern="[0-9]{10}"
+              maxLength={10}
+              title="Enter a 10-digit mobile number"
               className="w-full rounded-md border p-3 outline-none focus:ring-2 focus:ring-black"
             />
           </div>

@@ -2,10 +2,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth.js";
+import { useToast } from "../context/ToastContext.jsx";
 
 function Register() {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const showToast = useToast();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -30,7 +32,7 @@ function Register() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      showToast("error", "Passwords do not match");
       return;
     }
 
@@ -39,10 +41,10 @@ function Register() {
 
       await register(userData);
 
-      alert("Registration successful!");
+      showToast("success", "Registration successful!");
       navigate("/login");
     } catch (error) {
-      alert(error.message);
+      showToast("error", error.message || "Unable to register. Please try again.");
     }
   }
 
@@ -102,6 +104,10 @@ function Register() {
               value={formData.phone}
               onChange={handleChange}
               required
+              inputMode="numeric"
+              pattern="[0-9]{10}"
+              maxLength={10}
+              title="Enter a 10-digit mobile number"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-black"
             />
           </div>
